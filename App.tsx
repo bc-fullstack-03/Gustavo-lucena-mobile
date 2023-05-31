@@ -1,7 +1,9 @@
-import * as React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {Provider as AuthProvider, Context as AuthContext} from "./src/context/AuthContext"
+
 import Login from './src/Screens/Login';
 import SingUp from './src/Screens/SingUp';
 import Home from './src/Screens/Home';
@@ -30,7 +32,7 @@ const AppTheme = {
 }
 
 function App() {
-  const isLoggedIn = false;
+  const { token, tryLocalLogin, isLoading } = useContext(AuthContext);
   
   const[fontsLoaded] = useFonts({
     Inter_400Regular,
@@ -39,13 +41,17 @@ function App() {
     Inter_900Black,
   });
 
-  if(!fontsLoaded) {
+  useEffect(() => {
+    tryLocalLogin();
+  },[])
+
+  if(!fontsLoaded || isLoading) {
     return <Loading/>
   }
 
   return (
     <NavigationContainer theme={AppTheme}>
-      {!isLoggedIn ? (
+      {!token ? (
         <Stack.Navigator screenOptions={{ headerShown: false, statusBarStyle: "dark" }}>
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="SingUp" component={SingUp} />
@@ -62,4 +68,10 @@ function App() {
   );
 }
 
-export default App;
+export default () => {
+  return(
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+  );
+};

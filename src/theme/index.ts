@@ -6,6 +6,8 @@ export const THEME = {
         TEXT: "#EEEEEE",
         INPUT: "#7C7C8A",
 
+        ERROR: "red",
+
         CAPTION_400: "#7C7C8A",
 
         BUTTON: "#81D8F7"
