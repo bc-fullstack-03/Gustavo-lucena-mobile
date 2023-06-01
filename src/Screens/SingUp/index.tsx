@@ -14,6 +14,7 @@ function SingUp({ navigation }) {
                 authFomrTitle="Faça o cadastro e comece a usar!"
                 submitFomrButtonText="Cadastrar"
                 isregister={true}
+                navigate={navigation}
                 submitFormButtonAction={register}
             />
             <TouchableOpacity onPress={() => { navigation.navigate("Login") }} >

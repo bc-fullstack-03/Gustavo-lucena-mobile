@@ -14,6 +14,7 @@ interface AuthFormProps {
     authFomrTitle: string;
     submitFomrButtonText: string;
     isregister: boolean;
+    navigate?: any;
     submitFormButtonAction: (auth: Auth) => void;
 }
 
@@ -75,6 +76,10 @@ export function AuthForm(props: AuthFormProps) {
             </Input.Root>
             <Spacer />
             <Button title={props.submitFomrButtonText} onPress={() => {
+                if(props.navigate){
+                    alert("Conta Criada com sucesso!")
+                    props.navigate.navigate("Login")
+                }
                 props.submitFormButtonAction({ email, password, name })
             }} ></Button>
         </KeyboardAvoidingView>
