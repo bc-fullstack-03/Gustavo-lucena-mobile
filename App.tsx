@@ -2,12 +2,13 @@ import React, { useContext, useEffect } from 'react';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {Provider as AuthProvider, Context as AuthContext} from "./src/context/AuthContext"
+import { Provider as AuthProvider, Context as AuthContext } from "./src/context/AuthContext";
+import { House, User, UsersThree } from "phosphor-react-native";
 
 import Login from './src/Screens/Login';
 import SingUp from './src/Screens/SingUp';
 import Home from './src/Screens/Home';
-import Frineds from './src/Screens/Friends';
+import Friends from './src/Screens/Friends';
 import Profile from './src/Screens/Profile';
 import { THEME } from './src/theme';
 import {
@@ -33,8 +34,8 @@ const AppTheme = {
 
 function App() {
   const { token, tryLocalLogin, isLoading } = useContext(AuthContext);
-  
-  const[fontsLoaded] = useFonts({
+
+  const [fontsLoaded] = useFonts({
     Inter_400Regular,
     Inter_600SemiBold,
     Inter_700Bold,
@@ -43,10 +44,10 @@ function App() {
 
   useEffect(() => {
     tryLocalLogin();
-  },[])
+  }, [])
 
-  if(!fontsLoaded || isLoading) {
-    return <Loading/>
+  if (!fontsLoaded || isLoading) {
+    return <Loading />
   }
 
   return (
@@ -57,9 +58,29 @@ function App() {
           <Stack.Screen name="SingUp" component={SingUp} />
         </Stack.Navigator>
       ) : (
-        <Tab.Navigator>
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ color, size }) => {
+              switch (route.name) {
+                case "Home":
+                  return <House size={size} color={color} />;
+                case "Friends":
+                  return <UsersThree size={size} color={color} />;
+                case "Profile":
+                  return <User size={size} color={color} />;
+                default:
+                  return null;
+              }
+            },
+            tabBarStyle: { backgroundColor: THEME.COLORS.BACKGROUNG_800 },
+            tabBarShowLabel: false,
+            headerShown: false,
+            //headerTitleStyle: { color: THEME.COLORS.TEXT },
+            //headerStyle: { backgroundColor: THEME.COLORS.BACKGROUNG_900}
+          })}
+        >
           <Tab.Screen name='Home' component={Home} ></Tab.Screen>
-          <Tab.Screen name='Frineds' component={Frineds} ></Tab.Screen>
+          <Tab.Screen name='Friends' component={Friends} ></Tab.Screen>
           <Tab.Screen name='Profile' component={Profile} ></Tab.Screen>
         </Tab.Navigator>
       )
@@ -69,7 +90,7 @@ function App() {
 }
 
 export default () => {
-  return(
+  return (
     <AuthProvider>
       <App />
     </AuthProvider>

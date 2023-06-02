@@ -7,17 +7,20 @@ import { getAuthHeader } from "../services/auth"
 interface AuthContext {
     token: string;
     user: string;
+    userId: string;
     profile: string;
     errorMessage: string;
     isLoading: boolean;
     login?: () => void;
-    tryLocalLogin?: () =>  void;
+    tryLocalLogin?: () => void;
     register?: () => void;
+    logout?: () => void;
 }
 
 const defaultValue = {
     token: "",
     user: "",
+    userId: "",
     profile: "",
     errorMessage: "",
     isLoading: true,
@@ -41,7 +44,9 @@ const Provider = ({ children }: { children: ReactNode }) => {
                     isLoading: false,
                 };
             case "use_created":
-                return{...state, errorMessage: "", ...action.payload}
+                return { ...state, errorMessage: "", ...action.payload }
+            case "logout":
+                return { token: "", user: "", profile: "", errorMessage: "", isLoading: false }
             default:
                 return state;
         }
@@ -53,14 +58,15 @@ const Provider = ({ children }: { children: ReactNode }) => {
         try {
             const { token } = (await api.post("/auth/authenticate", auth)).data;
             await SecureStore.setItemAsync("token", token);
-            
-            const { email, name } = (await api.get("/auth/get-logged", await getAuthHeader())).data
+
+            const { email, name, id } = (await api.get("/auth/get-logged", await getAuthHeader())).data
             await SecureStore.setItemAsync("user", name);
+            await SecureStore.setItemAsync("userId", id);
             await SecureStore.setItemAsync("profile", email);
 
             dispatch({
                 type: "login",
-                payload: { token: token, profile: email, user: name, isLoading: false, }
+                payload: { token: token, profile: email, user: name, userId: id, isLoading: false, }
             })
 
         } catch (error) {
@@ -72,22 +78,23 @@ const Provider = ({ children }: { children: ReactNode }) => {
         }
     }
 
-    const tryLocalLogin =async () => {
+    const tryLocalLogin = async () => {
         try {
             const token = await SecureStore.getItemAsync("token");
             const user = await SecureStore.getItemAsync("user");
+            const userId = await SecureStore.getItemAsync("userId");
             const profile = await SecureStore.getItemAsync("profile");
 
             dispatch({
                 type: "login",
-                payload: { token: token, profile: profile, user: user, isLoading: false, }
+                payload: { token: token, profile: profile, user: user, userId: userId, isLoading: false, }
             })
         } catch (error) {
             console.log(error)
         }
     }
 
-    const register = async(auth: Auth) => {
+    const register = async (auth: Auth) => {
         try {
             await api.post("/auth/register", auth);
             dispatch({
@@ -102,8 +109,22 @@ const Provider = ({ children }: { children: ReactNode }) => {
         }
     }
 
+    const logout = async () => {
+        try {
+            await SecureStore.deleteItemAsync("token");
+            await SecureStore.deleteItemAsync("user");
+            await SecureStore.deleteItemAsync("profile");
+
+            dispatch({
+                type: "logout"
+            });
+        } catch (error) {
+
+        }
+    }
+
     return (
-        <Context.Provider value={{ ...state, login, tryLocalLogin, register }} >
+        <Context.Provider value={{ ...state, login, tryLocalLogin, register, logout }} >
             {children}
         </Context.Provider>
     )

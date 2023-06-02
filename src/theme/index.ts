@@ -1,6 +1,7 @@
 export const THEME = {
     COLORS: {
         BACKGROUNG_900: "#121214",
+        BACKGROUNG_800: "#18181b",
         BACKGROUNG_600: "#202024",
 
         TEXT: "#EEEEEE",
@@ -10,7 +11,8 @@ export const THEME = {
 
         CAPTION_400: "#7C7C8A",
 
-        BUTTON: "#81D8F7"
+        BUTTON: "#81D8F7",
+        BUTTON_700: "#0e7490",
     },
     FONT_FAMILY: {
         REGULAR: "Inter_400Regular",
