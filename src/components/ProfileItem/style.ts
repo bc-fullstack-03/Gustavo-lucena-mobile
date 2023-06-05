@@ -3,8 +3,10 @@ import { THEME } from "../../theme";
 
 export const style = StyleSheet.create({
     profileCard: {
-        margin: 12,
+        padding: 12,
         gap: 4,
+        borderBottomColor: THEME.COLORS.BORDER,
+        borderBottomWidth: 1,
     },
     profileIdentification: {
         flexDirection: "row",

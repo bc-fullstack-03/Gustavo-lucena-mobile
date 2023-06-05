@@ -13,6 +13,8 @@ export const THEME = {
 
         BUTTON: "#81D8F7",
         BUTTON_700: "#0e7490",
+
+        BORDER: "#76768A",
     },
     FONT_FAMILY: {
         REGULAR: "Inter_400Regular",

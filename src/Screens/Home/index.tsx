@@ -1,10 +1,20 @@
-import { Text, View } from "react-native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Provider as PostProvider } from "../../context/PostContext";
+import { PostList } from "../PostList";
+import { CreatePost } from "../CreatePost";
+
+const Stack = createNativeStackNavigator();
 
 function Home() {
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Home</Text>
-        </View>
+        <PostProvider>
+            <Stack.Navigator
+                screenOptions={{ headerShown: false, statusBarStyle: "dark" }}
+            >
+                <Stack.Screen name="Posts" component={PostList} />
+                <Stack.Screen name="Create" component={CreatePost} />
+            </Stack.Navigator>
+        </PostProvider>
     );
 }
 
