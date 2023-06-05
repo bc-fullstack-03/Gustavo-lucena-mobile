@@ -11,8 +11,8 @@ function Home() {
             <Stack.Navigator
                 screenOptions={{ headerShown: false, statusBarStyle: "dark" }}
             >
-                <Stack.Screen name="Posts" component={PostList} />
-                <Stack.Screen name="Create" component={CreatePost} />
+                <Stack.Screen name="PostList" component={PostList} />
+                <Stack.Screen name="CreatePost" component={CreatePost} />
             </Stack.Navigator>
         </PostProvider>
     );

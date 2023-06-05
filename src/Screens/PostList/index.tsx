@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react"
-import { View, SafeAreaView, FlatList, Text } from "react-native";
+import { View, SafeAreaView, FlatList } from "react-native";
 import { Context as AuthContext } from "../../context/AuthContext";
 import { Context as PostContext } from "../../context/PostContext";
 
@@ -10,7 +10,7 @@ import { PostItem } from "../../components/PostItem";
 export function PostList({ navigation }) {
     const { user } = useContext(AuthContext);
     const { posts, getPosts } = useContext(PostContext);
-    
+
     useEffect(() => {
         getPosts();
     }, [])

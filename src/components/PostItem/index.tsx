@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { Context as AuthContext } from "../../context/AuthContext";
 import { Context as PostContext } from "../../context/PostContext";
 import { style } from "./style";
 import { Spacer } from "../Spacer";
-import { Chat, Heart, UserCircle } from "phosphor-react-native";
+import { Chat, Heart, IconWeight, UserCircle } from "phosphor-react-native";
 import { Post } from "../../models/Post";
 
 interface PostItemProps {
@@ -14,6 +14,7 @@ interface PostItemProps {
 export function PostItem({ post }: PostItemProps) {
     const { userId } = useContext(AuthContext);
     const { likePost } = useContext(PostContext);
+    const [chatWeigth, setChatWeigth] = useState<IconWeight>("thin");
 
     function handleLike() {
         likePost({ postId: post.id })
@@ -35,7 +36,9 @@ export function PostItem({ post }: PostItemProps) {
                 }
             </Spacer>
             <View style={style.footer} >
-                <Chat size={24} color="white" weight="thin" />
+                <TouchableOpacity onPressIn={() => {setChatWeigth("fill")}} onPressOut={() => {setChatWeigth("thin")}} >
+                    <Chat size={24} color="white" weight={chatWeigth} />
+                </TouchableOpacity>
                 <Text style={style.number} >{post.comments.length}</Text>
                 <TouchableOpacity onPress={handleLike}>
                     {

@@ -19,6 +19,7 @@ import {
   Inter_900Black,
 } from "@expo-google-fonts/inter"
 import Loading from './src/components/Loading';
+import { navigationRef } from './src/RootNavigation';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -51,7 +52,7 @@ function App() {
   }
 
   return (
-    <NavigationContainer theme={AppTheme}>
+    <NavigationContainer theme={AppTheme} ref={navigationRef}>
       {!token ? (
         <Stack.Navigator screenOptions={{ headerShown: false, statusBarStyle: "dark" }}>
           <Stack.Screen name="Login" component={Login} />
@@ -75,8 +76,6 @@ function App() {
             tabBarStyle: { backgroundColor: THEME.COLORS.BACKGROUNG_800 },
             tabBarShowLabel: false,
             headerShown: false,
-            //headerTitleStyle: { color: THEME.COLORS.TEXT },
-            //headerStyle: { backgroundColor: THEME.COLORS.BACKGROUNG_900}
           })}
         >
           <Tab.Screen name='Home' component={Home} ></Tab.Screen>

@@ -17,4 +17,9 @@ async function getUserId() {
     return userId;
 }
 
-export { getAuthHeader, getUserId };
+async function getUser() {
+    const user = await SecureStore.getItemAsync("user");
+    return user;
+}
+
+export { getAuthHeader, getUserId, getUser };
