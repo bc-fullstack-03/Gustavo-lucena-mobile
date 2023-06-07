@@ -9,15 +9,16 @@ import { Post } from "../../models/Post";
 
 interface PostItemProps {
     post: Post;
+    navigation: any;
 }
 
-export function PostItem({ post }: PostItemProps) {
+export function PostItem({ post, navigation }: PostItemProps) {
     const { userId } = useContext(AuthContext);
     const { likePost } = useContext(PostContext);
     const [chatWeigth, setChatWeigth] = useState<IconWeight>("thin");
 
-    function handleLike() {
-        likePost({ postId: post.id })
+    function handleLike(id: string) {
+        likePost({ postId: id })
     }
 
     return (
@@ -36,19 +37,19 @@ export function PostItem({ post }: PostItemProps) {
                 }
             </Spacer>
             <View style={style.footer} >
-                <TouchableOpacity onPressIn={() => {setChatWeigth("fill")}} onPressOut={() => {setChatWeigth("thin")}} >
+                <TouchableOpacity onPress={() => navigation.navigate("PostDetails", {id: post.id, post})} onPressIn={() => {setChatWeigth("fill")}} onPressOut={() => {setChatWeigth("thin")}} >
                     <Chat size={24} color="white" weight={chatWeigth} />
                 </TouchableOpacity>
-                <Text style={style.number} >{post.comments.length}</Text>
-                <TouchableOpacity onPress={handleLike}>
+                <Text style={style.number} >{post.comments}</Text>
+                <TouchableOpacity onPress={() => handleLike(post.id)}>
                     {
-                        !post.likes.includes(userId) ? 
+                        post.likes && !post.likes.includes(userId) ? 
                         (<Heart size={24} color="white" weight="thin" />) :
                         (<Heart size={24} color="red" weight="fill" />)
                     }
                     
                 </TouchableOpacity>
-                <Text style={style.number} >{post.likes.length}</Text>
+                <Text style={style.number} >{post.likes && post.likes.length}</Text>
             </View>
         </View>
     );

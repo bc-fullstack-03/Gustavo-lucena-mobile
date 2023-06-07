@@ -23,7 +23,7 @@ export function PostList({ navigation }) {
                     data={posts}
                     keyExtractor={({ id }) => id}
                     renderItem={({ item }) => (
-                        <PostItem post={item} />
+                        <PostItem post={item} navigation={navigation} />
                     )}
                 >
 

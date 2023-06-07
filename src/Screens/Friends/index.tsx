@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Context as AuthContext } from "../../context/AuthContext";
+import { Context as PostContext } from "../../context/PostContext";
 import { SafeAreaView, FlatList } from "react-native";
 import { style } from "./style";
 import api from "../../services/api";
@@ -9,6 +10,7 @@ import { Profile } from "../../models/Profile";
 
 function Friends() {
     const { userId } = useContext(AuthContext);
+    const { getPosts } = useContext(PostContext);
     const [profilesList, setProfilesList] = useState([]);
 
     useEffect(() => {
@@ -35,6 +37,7 @@ function Friends() {
                     }
                     return profile;
                 })
+                getPosts();
                 return [...newProfiles];
             })
         } catch (error) {
@@ -53,6 +56,7 @@ function Friends() {
                     }
                     return profile;
                 })
+                getPosts();
                 return [...newProfiles];
             })
         } catch (error) {
@@ -69,7 +73,6 @@ function Friends() {
                     <ProfileItem profile={item} handleFollowAction={handleFollow} handleUnFollowAction={handleUnFollow} />
                 )}
             >
-
             </FlatList>
         </SafeAreaView>
     );

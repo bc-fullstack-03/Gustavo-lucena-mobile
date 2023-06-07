@@ -5,6 +5,6 @@ export interface Post {
     content: string;
     fileUrl: string;
     likes: string[];
-    comments: [];
+    comments: string;
     createdAt: string;
 }
