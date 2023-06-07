@@ -1,6 +1,6 @@
 # Gustavo-lucena-frontend
 
-## Projeto frontend bootcamp Sysmap
+## Projeto mobile bootcamp Sysmap
 O objetivo desse projeto é simular uma rede social baseado no twitter
 
 Projeto backend: https://github.com/bc-fullstack-03/Gustavo-lucena-backend
